@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { login, googleLogin } from '../api/auth';
+import { useState, useEffect } from 'react';
+import { login, googleLogin, fetchUserProfile } from '../api/auth';
 import styles from '../../styles/Auth.module.css';
 import { useRouter } from 'next/navigation';
 
@@ -23,6 +23,19 @@ export default function LoginPage() {
             setError(error.response?.data || 'Login error');
         }
     };
+    //check is user is already logged in
+    useEffect(() => {
+        const handleCheckUserAuth = async () => {
+            try {
+                const response = await fetchUserProfile();
+                if (response.data) {
+                    router.push('/dashboard');
+                }
+            } catch (error) {}
+        };
+
+        handleCheckUserAuth();
+    }, [router]);
 
     return (
         <div className={styles.container}>
@@ -49,7 +62,7 @@ export default function LoginPage() {
                 Login with Google
             </button>
             <button onClick={() => router.push('/register')} className={styles.linkButton}>
-                Don't have an account? Register
+                Do not have an account? Register
             </button>
         </div>
     );

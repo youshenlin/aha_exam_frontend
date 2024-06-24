@@ -27,13 +27,9 @@ export const googleLogin = () => {
 };
 
 export const logout = async () => {
-    return axios.post(
-        `${API_HOST}/logout`,
-        {},
-        {
-            withCredentials: true,
-        }
-    );
+    return axios.get(`${API_HOST}/api/logout`, {
+        withCredentials: true,
+    });
 };
 
 export const changeDisplayName = async (displayName) => {
@@ -48,7 +44,7 @@ export const changeDisplayName = async (displayName) => {
 
 export const resendVerificationEmail = async () => {
     return axios.post(
-        `${API_HOST}/auth/resend-verification-email`,
+        `${API_HOST}/api/auth/resend-verification-email`,
         {},
         {
             withCredentials: true,
@@ -68,10 +64,16 @@ export const fetchDashboardData = async () => {
     });
 };
 
-export const resetPassword = async (oldPassword, newPassword) => {
+export const fetchUserStatic = async () => {
+    return axios.get(`${API_HOST}/api/statistics`, {
+        withCredentials: true,
+    });
+};
+
+export const resetPassword = async (oldPassword, newPassword, newConfirmPassword) => {
     return axios.post(
         `${API_HOST}/api/auth/reset-password`,
-        { oldPassword, newPassword },
+        { oldPassword, newPassword, confirmNewPassword: newConfirmPassword },
         {
             withCredentials: true,
         }

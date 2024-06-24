@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { register } from '../api/auth';
+import { useState, useEffect } from 'react';
+import { register, fetchUserProfile } from '../api/auth';
 import styles from '../../styles/Auth.module.css';
-
+import { useRouter } from 'next/navigation';
 export default function RegisterPage() {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -29,6 +30,19 @@ export default function RegisterPage() {
             setError(error.response?.data || 'Register error');
         }
     };
+    //check is user is already logged in
+    useEffect(() => {
+        const handleCheckUserAuth = async () => {
+            try {
+                const response = await fetchUserProfile();
+                if (response.data) {
+                    router.push('/dashboard');
+                }
+            } catch (error) {}
+        };
+
+        handleCheckUserAuth();
+    }, [router]);
 
     return (
         <div className={styles.container}>
