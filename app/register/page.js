@@ -4,18 +4,22 @@ import { useState, useEffect } from 'react';
 import { register, fetchUserProfile } from '../api/auth';
 import styles from '../../styles/Auth.module.css';
 import { useRouter } from 'next/navigation';
+
 export default function RegisterPage() {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleRegister = async () => {
         if (password !== confirmPassword) {
             setError('Passwords do not match');
             return;
         }
+
+        setIsSubmitting(true);
 
         try {
             const response = await register(email, password, confirmPassword);
@@ -24,13 +28,19 @@ export default function RegisterPage() {
             } else {
                 console.log('Register success:', response.data);
                 setError('');
+                setTimeout(() => {
+                    router.push('/dashboard');
+                }, 500);
             }
         } catch (error) {
             console.log('error:', error.response);
             setError(error.response?.data || 'Register error');
+        } finally {
+            setIsSubmitting(false);
         }
     };
-    //check is user is already logged in
+
+    // check if user is already logged in
     useEffect(() => {
         const handleCheckUserAuth = async () => {
             try {
@@ -53,6 +63,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className={styles.input}
+                disabled={isSubmitting}
             />
             <input
                 type='password'
@@ -60,6 +71,7 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={styles.input}
+                disabled={isSubmitting}
             />
             <input
                 type='password'
@@ -67,6 +79,7 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className={styles.input}
+                disabled={isSubmitting}
             />
             {error && (
                 <p className={styles.error}>
@@ -78,7 +91,7 @@ export default function RegisterPage() {
                     ))}
                 </p>
             )}
-            <button onClick={handleRegister} className={styles.button}>
+            <button onClick={handleRegister} className={styles.button} disabled={isSubmitting}>
                 Register
             </button>
         </div>
