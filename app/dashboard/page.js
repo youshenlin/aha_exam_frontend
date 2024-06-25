@@ -127,8 +127,8 @@ export default function DashboardClient() {
                 <div>
                     <section className={styles.statistics}>
                         <h2>User Statistics</h2>
-                        <p>Total Users: {statistics.totalUsers}</p>
-                        <p>Active Sessions Today: {statistics.activeSessionsToday}</p>
+                        <p>Total number of users who have signed up: {statistics.totalUsers}</p>
+                        <p>Total number of users with active sessions today: {statistics.activeSessionsToday}</p>
                         <p>Average Active Sessions (Last 7 Days): {statistics.averageActiveSessionsLast7Days}</p>
                     </section>
                 </div>
