@@ -12,10 +12,10 @@ export const login = async (email, password) => {
     );
 };
 
-export const register = async (email, password) => {
+export const register = async (email, password, confirmPassword) => {
     return axios.post(
         `${API_HOST}/api/auth/register`,
-        { email, password },
+        { email, password, confirmPassword },
         {
             withCredentials: true,
         }
