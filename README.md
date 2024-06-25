@@ -9,7 +9,7 @@ This repository contains the frontend for the AHA AI Exam project. It is built u
 ## Demo
 
 You can view a live demo of the frontend at the following URL:
-[Demo URL](https://aha_exam.chunkgo.com)
+[Demo URL](https://aha.chunkgo.com)
 
 ## Backend Repository
 
